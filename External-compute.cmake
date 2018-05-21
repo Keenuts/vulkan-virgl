@@ -13,8 +13,8 @@ ExternalProject_Add(${NAME}
 
     CMAKE_ARGS
         -DCMAKE_BUILD_TYPE=Release
-        -DVIRGL_INCLUDES=${VIRGL_INCLUDES_DIR}
-        -DVIRGL_LIBS=${VIRGL_LIBS_DIR}
+        -DICD_LIB=${ICD_LIB}
+        -DVIRGL_LIB=${VIRGL_LIB}
     INSTALL_COMMAND ""
     DEPENDS fake-icd
 )

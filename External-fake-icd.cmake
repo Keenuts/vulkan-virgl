@@ -20,4 +20,4 @@ unset(NAME)
 
 message("includes: ${VIRGL_INCLUDES_DIR}")
 
-set(ICD_DIR ${CMAKE_BINARY_DIR}/icd-build)
+set(ICD_LIB "${CMAKE_BINARY_DIR}/icd-build/libvulkan-fake-icd.a")

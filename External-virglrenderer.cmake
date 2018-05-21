@@ -20,5 +20,5 @@ ExternalProject_Add(${NAME}
 )
 
 set(VIRGL_DIR ${CMAKE_BINARY_DIR}/virgl-build)
-set(VIRGL_LIBS_DIR "${CMAKE_BINARY_DIR}/virgl-build/lib")
+set(VIRGL_LIB "${CMAKE_BINARY_DIR}/virgl-build/lib/libvirglrenderer.a")
 set(VIRGL_INCLUDES_DIR "${CMAKE_BINARY_DIR}/virgl-build/include/virgl")
