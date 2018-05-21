@@ -5,7 +5,7 @@ ExternalProject_Add(${NAME}
     STAMP_DIR ${STAMP_DIR}/${NAME}
     TMP_DIR ${TMP_DIR}/${NAME}
     SOURCE_DIR ${NAME}
-    BINARY_DIR ${CMAKE_BINARY_DIR}
+    BINARY_DIR compute-build
 
     GIT_REPOSITORY git@github.com:Keenuts/vulkan-compute
     GIT_TAG master
@@ -20,4 +20,4 @@ ExternalProject_Add(${NAME}
 )
 unset(NAME)
 
-set(APP_DIR ${CMAKE_BINARY_DIR})
+set(APP_DIR ${CMAKE_BINARY_DIR}/compute-build)
