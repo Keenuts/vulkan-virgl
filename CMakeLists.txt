@@ -17,7 +17,7 @@ macro(GIT_TASK name url branch)
 
         GIT_REPOSITORY ${url}
         GIT_TAG ${branch}
-        GIT_SHALLOW TRUE
+        GIT_SHALLOW FALSE
 
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
