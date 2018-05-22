@@ -22,6 +22,7 @@ ExternalProject_Add_step(${NAME} rebuild
     COMMAND make install
     WORKING_DIRECTORY ${NAME}-build
     ALWAYS TRUE
+    DEPENDEES build
 )
 
 IF (${SYNC})

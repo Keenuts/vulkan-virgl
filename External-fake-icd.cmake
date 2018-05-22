@@ -18,6 +18,7 @@ ExternalProject_Add_step(${NAME} rebuild
     COMMAND make
     WORKING_DIRECTORY ${NAME}-build
     ALWAYS TRUE
+    DEPENDEES build
 )
 
 add_dependencies(${NAME} virglrenderer)
