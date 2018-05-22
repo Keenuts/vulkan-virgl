@@ -14,10 +14,15 @@ ExternalProject_Add(${NAME}
         -DICD_LIB=${ICD_LIB}
         -DVIRGL_LIB=${VIRGL_LIB}
     INSTALL_COMMAND ""
-    DEPENDS
-        fake-icd
 )
 
+ExternalProject_Add_step(${NAME} rebuild
+    COMMAND make
+    WORKING_DIRECTORY ${NAME}-build
+    ALWAYS TRUE
+)
+
+add_dependencies(${NAME} fake-icd)
 IF (${SYNC})
     add_dependencies(${NAME} ${NAME}-git)
 ENDIF()

@@ -12,13 +12,19 @@ ExternalProject_Add(${NAME}
     CMAKE_ARGS
         -DVIRGL_INCLUDES=${VIRGL_INCLUDES_DIR}
     INSTALL_COMMAND ""
-    DEPENDS
-        virglrenderer
 )
 
+ExternalProject_Add_step(${NAME} rebuild
+    COMMAND make
+    WORKING_DIRECTORY ${NAME}-build
+    ALWAYS TRUE
+)
+
+add_dependencies(${NAME} virglrenderer)
 IF (${SYNC})
     add_dependencies(${NAME} ${NAME}-git)
 ENDIF()
 
 set(ICD_LIB "${CMAKE_BINARY_DIR}/${NAME}-build/libvulkan-fake-icd.a")
+
 unset(NAME)

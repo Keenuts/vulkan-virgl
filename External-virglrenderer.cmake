@@ -17,6 +17,13 @@ ExternalProject_Add(${NAME}
     BUILD_COMMAND make
 )
 
+ExternalProject_Add_step(${NAME} rebuild
+    COMMAND make
+    COMMAND make install
+    WORKING_DIRECTORY ${NAME}-build
+    ALWAYS TRUE
+)
+
 IF (${SYNC})
     add_dependencies(${NAME} ${NAME}-git)
 ENDIF()
