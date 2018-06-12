@@ -1,5 +1,16 @@
 #!/bin/bash
 
+TO_CHECK=(VULKAN_DRIVER USE_VIRTIOGPU VK_ICD_FILENAMES)
+
+for v in ${TO_CHECK[*]}; do
+    if [ "$(set | grep $v=)" != "" ]; then
+        echo "$v env variable is set. This might be an error"
+        echo "press enter to continue"
+        read
+    fi
+done
+
+
 function clone_repo()
 {
     url="$1"
