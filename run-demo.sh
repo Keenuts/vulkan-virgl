@@ -28,24 +28,25 @@ function clone_repo()
 
 function build_mesa()
 {
-    cd mesa
+    echo "building mesa"
 
-    if [ ! -d build ]; then
-        meson setup ./ ./build
-        meson configure ./build -Dvulkan-drivers=virgl -Dgallium-drivers=virgl
+    if [ ! -d mesa/build ]; then
+        meson setup mesa mesa/build
+        meson configure mesa/build -Dvulkan-drivers=virgl -Dgallium-drivers=virgl
     fi
 
-    ninja -C ./build -j $(( $(nproc) * 2 ))
+    ninja -C mesa/build -j $(( $(nproc) * 2 ))
 
-    export ICD_JSON="$(realpath build/src/virgl/vulkan/dev_icd.x86_64.json)"
-    cd "$root"
+    export ICD_JSON="$(realpath mesa/build/src/virgl/vulkan/dev_icd.x86_64.json)"
 }
 
 function build_virglrenderer()
 {
+    echo "building virglrenderer"
     cd virglrenderer
 
-    if [ ! -f configure ]; then
+    echo $(pwd)
+    if [ ! -f Makefile ]; then
         ./autogen.sh                    \
             --with-vulkan               \
             --enable-debug              \
@@ -61,6 +62,7 @@ function build_virglrenderer()
 
 function build_vulkan_compute()
 {
+    echo "building vulkan application"
     cd vulkan-compute
 
     if [ ! -d build ]; then
