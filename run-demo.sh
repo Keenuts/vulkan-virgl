@@ -31,8 +31,12 @@ function build_mesa()
     echo "building mesa"
 
     if [ ! -d mesa/build ]; then
-        meson setup mesa mesa/build
-        meson configure mesa/build -Dvulkan-drivers=virgl -Dgallium-drivers=virgl
+        meson setup mesa mesa/build         \
+            -Dvulkan-drivers=virgl          \
+            -Dgallium-drivers=virgl         \
+            -Dbuildtype=debug               \
+            -Dglx=disabled                  \
+            -Dprefix=$(realpath mesa/build)
     fi
 
     ninja -C mesa/build -j $(( $(nproc) * 2 ))
