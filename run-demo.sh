@@ -17,7 +17,7 @@ function clone_repo()
     folder="$2"
 
     if [ ! -d "$folder" ]; then
-        git clone "$url" "$folder" || exit 1
+        git clone "$url" "$folder" --depth=1 || exit 1
     else
         cd "$folder" && git pull
     fi
