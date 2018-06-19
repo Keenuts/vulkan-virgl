@@ -41,7 +41,7 @@ function build_mesa()
 
     ninja -C mesa/build -j $(( $(nproc) * 2 ))
 
-    export ICD_JSON="$(realpath mesa/build/src/virgl/vulkan/dev_icd.x86_64.json)"
+    export ICD_JSON="$(realpath mesa/build/src/virgl/dev_icd.x86_64.json)"
 }
 
 function build_virglrenderer()
