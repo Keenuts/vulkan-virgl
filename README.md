@@ -37,3 +37,16 @@ A sample vulkan compute application.
 ```bash
 ./run-demo.sh
 ```
+
+You can also use override repo urls
+
+```bash
+./run-demo.sh                   \
+    --mesa=$(MESA_REPO_URL)     \
+    --virgl=$(VIRGL_REPO_URL)   \
+    --app=$(APP_REPO_URL)
+```
+
+There is also a **-f** and **-u** option.
+**-f**: delete the build/ directory, forcing clean-up.
+**-u**: only synchronizes the repos
