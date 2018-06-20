@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# First step, check if the env is sane.
+
+COLOR_BEGIN="\033[93m"
+COLOR_END="\033[0m"
+
 TO_CHECK=(VULKAN_DRIVER USE_VIRTIOGPU VK_ICD_FILENAMES)
 
 for v in ${TO_CHECK[*]}; do
@@ -92,19 +97,19 @@ function build_mesa()
 
 function build_virglrenderer()
 {
-    echo "building virglrenderer"
     cd virglrenderer
 
-    echo $(pwd)
     if [ ! -f Makefile ]; then
+        echo -e "${COLOR_BEGIN}[INFO] configuring virglrenderer${COLOR_END}"
         ./autogen.sh                    \
             --with-vulkan               \
             --enable-debug              \
             --enable-tests              \
-            --prefix=$(realpath build)
+            --prefix=$(realpath build) > /dev/null
     fi
 
-    make -j $(( $(nproc) * 2 ))
+    echo -e "${COLOR_BEGIN}[INFO] building virglrenderer${COLOR_END}"
+    make -j $(( $(nproc) * 2 )) > /dev/null
 
     cp vtest/virgl_test_server "$root/"
     cd "$root"
@@ -112,14 +117,15 @@ function build_virglrenderer()
 
 function build_vulkan_compute()
 {
-    echo "building vulkan application"
     cd vulkan-compute
 
     if [ ! -d build ]; then
+        echo -e "${COLOR_BEGIN}[INFO] configuring vulkan application${COLOR_END}"
         mkdir build
-        cmake -H. -Bbuild/
+        cmake -H. -Bbuild/ > /dev/null
     fi
 
+    echo -e "${COLOR_BEGIN}[INFO] building vulkan application${COLOR_END}"
     make -C build -j $(( $(nproc) * 2 ))
 
     cp build/sum.spv "$root/sum.spv"
@@ -129,6 +135,7 @@ function build_vulkan_compute()
 
 function run_app()
 {
+    echo -e "${COLOR_BEGIN}[INFO] running the application now.${COLOR_END}"
     ./virgl_test_server &
     SERVER_PID=$!
 
@@ -142,7 +149,7 @@ function run_app()
     ./vulkan-application
     set -e
 
-    echo "killing vtest server."
+    echo -e "${COLOR_BEGIN}[INFO] Killing the vtest server.${COLOR_END}"
     kill $SERVER_PID
 }
 
