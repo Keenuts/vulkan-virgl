@@ -161,13 +161,12 @@ done
 # ENV checkup: is out env sane ?
 to_check=(VULKAN_DRIVER USE_VIRTIOGPU VK_ICD_FILENAMES)
 for v in ${to_check[*]}; do
-    if [ "$(set | grep $v=)" != "" ]; then
+    if [ "$(env | grep $v=)" != "" ]; then
         echo "$v env variable is set. This might be an error"
         echo "press enter to continue"
         read
     fi
 done
-
 
 # Creating build tree
 
