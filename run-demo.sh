@@ -20,6 +20,8 @@ done
 mesa_url="https://github.com/Keenuts/mesa.git"
 virglrenderer_url="https://github.com/Keenuts/virglrenderer.git"
 vulkan_compute_url="https://github.com/Keenuts/vulkan-compute.git"
+update_only=false
+force_clean=false
 
 function show_help()
 {
@@ -27,6 +29,8 @@ function show_help()
     echo "  --mesa=   : override the URL for the mesa project"
     echo "  --virgl=  : override the URL for the virglrenderer project"
     echo "  --app=    : override the URL for the vulkan-compute project"
+    echo "  -u        : only update the repositories"
+    echo "  -f        : remove the build folder. Forcing updates."
 }
 
 while [ "$#" -gt 0 ]; do
@@ -34,6 +38,9 @@ while [ "$#" -gt 0 ]; do
         --mesa=*)   mesa_url="${1#*=}";             shift 1;;
         --virgl=*)  virglrenderer_url="${1#*=}";    shift 1;;
         --app=*)    vulkan_compute_url="${1#*=}";   shift 1;;
+
+        -u) update_only=true; shift 1;;
+        -f) force_clean=true; shift 1;;
 
         *) show_help; exit 1;;
     esac
@@ -51,7 +58,8 @@ function clone_repo()
     url="$1"
     branch="$2"
     folder="$3"
-    updated=0
+
+    echo -e "${COLOR_BEGIN}[GIT] checking ${url} ${branch}${COLOR_END}"
 
     if [ ! -d "$folder" ]; then
         echo -e "${COLOR_BEGIN}[GIT] cloning ${url} ${branch}${COLOR_END}"
@@ -59,20 +67,10 @@ function clone_repo()
     else
         cd "$folder"
         git remote set-url origin "$url"
-
-        REMOTE=$(git rev-parse "$branch")
-        BASE=$(git merge-base @ "$branch")
-
-        if [ $REMOTE != $BASE ]; then
-            echo -e "${COLOR_BEGIN}[GIT] updating ${url} ${branch}${COLOR_END}"
-            updated=1
-            git pull || (echo "unstaged changes. Exiting now" ; exit 1)
-        fi
+        git pull
     fi
 
     cd "$root"
-
-    return $updated
 }
 
 function build_mesa()
@@ -161,6 +159,11 @@ function run_app()
 
 set -e
 cd $(dirname $0)
+
+if $force_clean; then
+    rm -rf build
+fi
+
 mkdir -p build
 cd build
 export root="$(pwd)"
@@ -168,6 +171,10 @@ export root="$(pwd)"
 clone_repo "$mesa_url"            virgl-vulkan  mesa
 clone_repo "$virglrenderer_url"   vulkan-wip    virglrenderer
 clone_repo "$vulkan_compute_url"  master        vulkan-compute
+
+if $update_only; then
+    exit 0
+fi
 
 build_mesa
 build_virglrenderer
