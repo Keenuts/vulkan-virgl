@@ -118,7 +118,7 @@ function build_vulkan_compute()
 function run_app()
 {
     echo -e "${COLOR_BEGIN}[INFO] running the application now.${COLOR_END}"
-    ./virgl_test_server &
+    ./virgl_test_server --no-fork &
     SERVER_PID=$!
 
     sleep 1
