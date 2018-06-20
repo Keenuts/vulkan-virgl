@@ -93,6 +93,12 @@ function build_mesa()
 
     echo -e "${COLOR_BEGIN}[INFO] locating ICD files${COLOR_END}"
     export ICD_JSON="$(realpath mesa/build/src/virgl/virglrenderer_debug.x86_64.json)"
+    if [ ! -f "$ICD_JSON" ]; then
+        echo "ERROR: ICD json file not found. Existing now"
+        exit 1
+    fi
+
+    cd "$root"
 }
 
 function build_virglrenderer()
