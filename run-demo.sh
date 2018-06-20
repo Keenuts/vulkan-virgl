@@ -11,36 +11,82 @@ for v in ${TO_CHECK[*]}; do
 done
 
 
+# Then, parse args. Repos URL can be overiden
+mesa_url="https://github.com/Keenuts/mesa.git"
+virglrenderer_url="https://github.com/Keenuts/virglrenderer.git"
+vulkan_compute_url="https://github.com/Keenuts/vulkan-compute.git"
+
+function show_help()
+{
+    echo "vulkan-virgl-helper:"
+    echo "  --mesa=   : override the URL for the mesa project"
+    echo "  --virgl=  : override the URL for the virglrenderer project"
+    echo "  --app=    : override the URL for the vulkan-compute project"
+}
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --mesa=*)   mesa_url="${1#*=}";             shift 1;;
+        --virgl=*)  virglrenderer_url="${1#*=}";    shift 1;;
+        --app=*)    vulkan_compute_url="${1#*=}";   shift 1;;
+
+        *) show_help; exit 1;;
+    esac
+done
+
+
+# Takes two parameters:
+#   - REPO-URL: URL to thr git repo
+#   - REVISION: Revision to checkout
+#   - DST-DIR:  DST directory to clone to
+#
+# Will clone or update the given repo
 function clone_repo()
 {
     url="$1"
-    folder="$2"
+    branch="$2"
+    folder="$3"
+    updated=0
 
     if [ ! -d "$folder" ]; then
-        git clone "$url" "$folder" --depth=1 || exit 1
+        echo -e "${COLOR_BEGIN}[GIT] cloning ${url} ${branch}${COLOR_END}"
+        git clone "$url" "$folder" -b "$branch" --depth=1 || exit 1
     else
-        cd "$folder" && git pull
+        cd "$folder"
+        git remote set-url origin "$url"
+
+        REMOTE=$(git rev-parse "$branch")
+        BASE=$(git merge-base @ "$branch")
+
+        if [ $REMOTE != $BASE ]; then
+            echo -e "${COLOR_BEGIN}[GIT] updating ${url} ${branch}${COLOR_END}"
+            updated=1
+            git pull || (echo "unstaged changes. Exiting now" ; exit 1)
+        fi
     fi
 
-    echo $root
     cd "$root"
+
+    return $updated
 }
 
 function build_mesa()
 {
-    echo "building mesa"
 
     if [ ! -d mesa/build ]; then
+        echo -e "${COLOR_BEGIN}[INFO] configuring MESA${COLOR_END}"
         meson setup mesa mesa/build         \
             -Dvulkan-drivers=virgl          \
             -Dgallium-drivers=virgl         \
             -Dbuildtype=debug               \
             -Dglx=disabled                  \
-            -Dprefix=$(realpath mesa/build)
+            -Dprefix=$(realpath mesa/build) > /dev/null
     fi
 
+    echo -e "${COLOR_BEGIN}[INFO] building MESA${COLOR_END}"
     ninja -C mesa/build -j $(( $(nproc) * 2 ))
 
+    echo -e "${COLOR_BEGIN}[INFO] locating ICD files${COLOR_END}"
     export ICD_JSON="$(realpath mesa/build/src/virgl/virglrenderer_debug.x86_64.json)"
 }
 
@@ -106,9 +152,9 @@ mkdir -p build
 cd build
 export root="$(pwd)"
 
-clone_repo "https://github.com/Keenuts/mesa.git" mesa
-clone_repo "https://github.com/Keenuts/virglrenderer.git" virglrenderer
-clone_repo "https://github.com/Keenuts/vulkan-compute.git" vulkan-compute
+clone_repo "$mesa_url"            virgl-vulkan  mesa
+clone_repo "$virglrenderer_url"   vulkan-wip    virglrenderer
+clone_repo "$vulkan_compute_url"  master        vulkan-compute
 
 build_mesa
 build_virglrenderer
