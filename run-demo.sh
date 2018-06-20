@@ -21,6 +21,7 @@ mesa_url="https://github.com/Keenuts/mesa.git"
 virglrenderer_url="https://github.com/Keenuts/virglrenderer.git"
 vulkan_compute_url="https://github.com/Keenuts/vulkan-compute.git"
 update_only=false
+update_remote=false
 force_clean=false
 
 function show_help()
@@ -35,9 +36,9 @@ function show_help()
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
-        --mesa=*)   mesa_url="${1#*=}";             shift 1;;
-        --virgl=*)  virglrenderer_url="${1#*=}";    shift 1;;
-        --app=*)    vulkan_compute_url="${1#*=}";   shift 1;;
+        --mesa=*)   mesa_url="${1#*=}";             update_remote=true; shift 1;;
+        --virgl=*)  virglrenderer_url="${1#*=}";    update_remote=true; shift 1;;
+        --app=*)    vulkan_compute_url="${1#*=}";   update_remote=true; shift 1;;
 
         -u) update_only=true; shift 1;;
         -f) force_clean=true; shift 1;;
@@ -59,14 +60,17 @@ function clone_repo()
     branch="$2"
     folder="$3"
 
-    echo -e "${COLOR_BEGIN}[GIT] checking ${url} ${branch}${COLOR_END}"
+    echo -e "${COLOR_BEGIN}[GIT] checking ${branch}${COLOR_END}"
 
     if [ ! -d "$folder" ]; then
         echo -e "${COLOR_BEGIN}[GIT] cloning ${url} ${branch}${COLOR_END}"
         git clone "$url" "$folder" -b "$branch" --depth=1 || exit 1
     else
         cd "$folder"
-        git remote set-url origin "$url"
+        if $update_remote; then
+            echo -e "${COLOR_BEGIN}[GIT] changing remote to ${url}${COLOR_END}"
+            git remote set-url origin "$url"
+        fi
         git pull
     fi
 
