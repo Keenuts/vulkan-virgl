@@ -50,3 +50,4 @@ You can also use override repo urls
 There is also a **-f** and **-u** option.
 **-f**: delete the build/ directory, forcing clean-up.
 **-u**: only synchronizes the repos
+**-ns**: disable the git sync step

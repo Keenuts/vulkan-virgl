@@ -19,6 +19,7 @@ function show_help()
     echo "  --app=    : override the URL for the vulkan-compute project"
     echo "  -u        : only update the repositories"
     echo "  -f        : remove the build folder. Forcing updates."
+    echo "  -ns       : disable sync step."
 }
 
 # Takes two parameters:
@@ -141,6 +142,7 @@ mesa_url="$DEFAULT_URL_MESA"
 virglrenderer_url="$DEFAULT_URL_VIRGL"
 vulkan_compute_url="$DEFAULT_URL_APP"
 
+run_git_step=true
 update_only=false
 update_remote=false
 force_clean=false
@@ -153,6 +155,7 @@ while [ "$#" -gt 0 ]; do
 
         -u) update_only=true; shift 1;;
         -f) force_clean=true; shift 1;;
+        -ns) run_git_step=false; shift 1;;
 
         *) show_help; exit 1;;
     esac
@@ -179,13 +182,15 @@ mkdir -p build
 cd build
 export root="$(pwd)"
 
-# cloning repos
-clone_repo "$mesa_url"            "$DEFAULT_BRANCH_MESA"   mesa
-clone_repo "$virglrenderer_url"   "$DEFAULT_BRANCH_VIRGL"  virglrenderer
-clone_repo "$vulkan_compute_url"  "$DEFAULT_BRANCH_APP"    vulkan-compute
+if $run_git_step; then
+    # cloning repos
+    clone_repo "$mesa_url"            "$DEFAULT_BRANCH_MESA"   mesa
+    clone_repo "$virglrenderer_url"   "$DEFAULT_BRANCH_VIRGL"  virglrenderer
+    clone_repo "$vulkan_compute_url"  "$DEFAULT_BRANCH_APP"    vulkan-compute
 
-if $update_only; then
-    exit 0
+    if $update_only; then
+        exit 0
+    fi
 fi
 
 # building
