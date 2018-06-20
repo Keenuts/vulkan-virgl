@@ -1,28 +1,15 @@
 #!/bin/bash
 
-# First step, check if the env is sane.
-
 COLOR_BEGIN="\033[93m"
 COLOR_END="\033[0m"
 
-TO_CHECK=(VULKAN_DRIVER USE_VIRTIOGPU VK_ICD_FILENAMES)
+DEFAULT_URL_MESA="https://github.com/Keenuts/mesa.git"
+DEFAULT_URL_VIRGL="https://github.com/Keenuts/virglrenderer.git"
+DEFAULT_URL_APP="https://github.com/Keenuts/vulkan-compute.git"
 
-for v in ${TO_CHECK[*]}; do
-    if [ "$(set | grep $v=)" != "" ]; then
-        echo "$v env variable is set. This might be an error"
-        echo "press enter to continue"
-        read
-    fi
-done
-
-
-# Then, parse args. Repos URL can be overiden
-mesa_url="https://github.com/Keenuts/mesa.git"
-virglrenderer_url="https://github.com/Keenuts/virglrenderer.git"
-vulkan_compute_url="https://github.com/Keenuts/vulkan-compute.git"
-update_only=false
-update_remote=false
-force_clean=false
+DEFAULT_BRANCH_MESA="virgl-vulkan"
+DEFAULT_BRANCH_VIRGL="vulkan-wip"
+DEFAULT_BRANCH_APP="master"
 
 function show_help()
 {
@@ -33,20 +20,6 @@ function show_help()
     echo "  -u        : only update the repositories"
     echo "  -f        : remove the build folder. Forcing updates."
 }
-
-while [ "$#" -gt 0 ]; do
-    case "$1" in
-        --mesa=*)   mesa_url="${1#*=}";             update_remote=true; shift 1;;
-        --virgl=*)  virglrenderer_url="${1#*=}";    update_remote=true; shift 1;;
-        --app=*)    vulkan_compute_url="${1#*=}";   update_remote=true; shift 1;;
-
-        -u) update_only=true; shift 1;;
-        -f) force_clean=true; shift 1;;
-
-        *) show_help; exit 1;;
-    esac
-done
-
 
 # Takes two parameters:
 #   - REPO-URL: URL to thr git repo
@@ -162,8 +135,43 @@ function run_app()
 }
 
 set -e
-cd $(dirname $0)
 
+# parse args. Repos URL can be overiden
+mesa_url="$DEFAULT_URL_MESA"
+virglrenderer_url="$DEFAULT_URL_VIRGL"
+vulkan_compute_url="$DEFAULT_URL_APP"
+
+update_only=false
+update_remote=false
+force_clean=false
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --mesa=*)   mesa_url="${1#*=}";             update_remote=true; shift 1;;
+        --virgl=*)  virglrenderer_url="${1#*=}";    update_remote=true; shift 1;;
+        --app=*)    vulkan_compute_url="${1#*=}";   update_remote=true; shift 1;;
+
+        -u) update_only=true; shift 1;;
+        -f) force_clean=true; shift 1;;
+
+        *) show_help; exit 1;;
+    esac
+done
+
+# ENV checkup: is out env sane ?
+to_check=(VULKAN_DRIVER USE_VIRTIOGPU VK_ICD_FILENAMES)
+for v in ${to_check[*]}; do
+    if [ "$(set | grep $v=)" != "" ]; then
+        echo "$v env variable is set. This might be an error"
+        echo "press enter to continue"
+        read
+    fi
+done
+
+
+# Creating build tree
+
+cd $(dirname $0)
 if $force_clean; then
     rm -rf build
 fi
@@ -172,16 +180,19 @@ mkdir -p build
 cd build
 export root="$(pwd)"
 
-clone_repo "$mesa_url"            virgl-vulkan  mesa
-clone_repo "$virglrenderer_url"   vulkan-wip    virglrenderer
-clone_repo "$vulkan_compute_url"  master        vulkan-compute
+# cloning repos
+clone_repo "$mesa_url"            "$DEFAULT_BRANCH_MESA"   mesa
+clone_repo "$virglrenderer_url"   "$DEFAULT_BRANCH_VIRGL"  virglrenderer
+clone_repo "$vulkan_compute_url"  "$DEFAULT_BRANCH_APP"    vulkan-compute
 
 if $update_only; then
     exit 0
 fi
 
+# building
 build_mesa
 build_virglrenderer
 build_vulkan_compute
 
+# running
 run_app
