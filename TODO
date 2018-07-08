@@ -1,20 +1,33 @@
+NEEDED IMPLEMS TO RUN THE SAMPLE APP
+====================================
+
+OK - implemented. Should be enough for now
+.. - on-going or partial implem
+   - not started
+
+
+NEEDED : this function is MANDATORY is I want to reach the
+         first result check. I will certainly crash soon after, but I
+         will have passed the first compute shader check.
+
 STATUS  NEEDED           NAME
 [    ]   [X]    vkAllocateCommandBuffers
 [ OK ]   [X]    vkAllocateDescriptorSets
-[    ]   [x]    vkAllocateMemory
+[ .. ]   [x]    vkAllocateMemory
 [    ]   [x]    vkBeginCommandBuffer
 [    ]   [x]    vkBindBufferMemory
 [    ]   [x]    vkCmdBindDescriptorSets
 [    ]   [x]    vkCmdBindPipeline
 [    ]   [x]    vkCmdDispatch
-[ -- ]   [x]    vkCreateBuffer
-[ -- ]   [x]    vkCreateCommandPool
-[    ]   [x]    vkCreateComputePipelines
+[    ]   [x]    vkCreateBuffer
+[ .. ]   [x]    vkCreateCommandPool
+[ OK ]   [x]    vkCreateComputePipelines
 [ OK ]   [x]    vkCreateDescriptorPool
 [ OK ]   [x]    vkCreateDescriptorSetLayout
 [ OK ]   [x]    vkCreateDevice
 [    ]   [x]    vkCreateFence
 [ OK ]   [x]    vkCreateInstance
+[    ]   [ ]    vkCreatePipelineCache
 [ OK ]   [x]    vkCreatePipelineLayout
 [ OK ]   [x]    vkCreateShaderModule
 [    ]   [ ]    vkDestroyBuffer
@@ -32,13 +45,15 @@ STATUS  NEEDED           NAME
 [ OK ]   [x]    vkEnumerateInstanceLayerProperties
 [ OK ]   [x]    vkEnumerateInstanceVersion
 [ OK ]   [x]    vkEnumeratePhysicalDevices
+[ .. ]   [x]    vkFlushMappedMemoryRanges
 [    ]   [ ]    vkFreeMemory
 [ OK ]   [x]    vkGetDeviceProcAddr
 [ OK ]   [x]    vkGetDeviceQueue
 [ OK ]   [x]    vkGetPhysicalDeviceFeatures
-[    ]   [ ]    vkGetPhysicalDeviceMemoryProperties
+[ OK ]   [x]    vkGetPhysicalDeviceMemoryProperties
 [ OK ]   [x]    vkGetPhysicalDeviceProperties
 [ OK ]   [x]    vkGetPhysicalDeviceQueueFamilyProperties
+[ .. ]   [x]    vkInvalidateMappedMemoryRanges
 [    ]   [x]    vkMapMemory
 [    ]   [x]    vkQueueSubmit
 [    ]   [ ]    vkUnmapMemory
