@@ -13,13 +13,13 @@ NEEDED : this function is MANDATORY is I want to reach the
 STATUS  NEEDED           NAME
 [    ]   [X]    vkAllocateCommandBuffers
 [ OK ]   [X]    vkAllocateDescriptorSets
-[ .. ]   [x]    vkAllocateMemory
+[ OK ]   [x]    vkAllocateMemory
 [    ]   [x]    vkBeginCommandBuffer
-[    ]   [x]    vkBindBufferMemory
+[ OK ]   [x]    vkBindBufferMemory
 [    ]   [x]    vkCmdBindDescriptorSets
 [    ]   [x]    vkCmdBindPipeline
 [    ]   [x]    vkCmdDispatch
-[    ]   [x]    vkCreateBuffer
+[ OK ]   [x]    vkCreateBuffer
 [ .. ]   [x]    vkCreateCommandPool
 [ OK ]   [x]    vkCreateComputePipelines
 [ OK ]   [x]    vkCreateDescriptorPool
@@ -45,7 +45,7 @@ STATUS  NEEDED           NAME
 [ OK ]   [x]    vkEnumerateInstanceLayerProperties
 [ OK ]   [x]    vkEnumerateInstanceVersion
 [ OK ]   [x]    vkEnumeratePhysicalDevices
-[ .. ]   [x]    vkFlushMappedMemoryRanges
+[ OK ]   [x]    vkFlushMappedMemoryRanges
 [    ]   [ ]    vkFreeMemory
 [ OK ]   [x]    vkGetDeviceProcAddr
 [ OK ]   [x]    vkGetDeviceQueue
@@ -53,9 +53,9 @@ STATUS  NEEDED           NAME
 [ OK ]   [x]    vkGetPhysicalDeviceMemoryProperties
 [ OK ]   [x]    vkGetPhysicalDeviceProperties
 [ OK ]   [x]    vkGetPhysicalDeviceQueueFamilyProperties
-[ .. ]   [x]    vkInvalidateMappedMemoryRanges
-[    ]   [x]    vkMapMemory
+[ OK ]   [x]    vkInvalidateMappedMemoryRanges
+[ OK ]   [x]    vkMapMemory
 [    ]   [x]    vkQueueSubmit
-[    ]   [ ]    vkUnmapMemory
+[ OK ]   [ ]    vkUnmapMemory
 [    ]   [x]    vkUpdateDescriptorSets
 [    ]   [x]    vkWaitForFences
