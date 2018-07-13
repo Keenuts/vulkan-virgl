@@ -18,19 +18,45 @@ The goal of this experiment is to redesign it to support both Vulkan and OpenGL.
 
 A sample vulkan compute application.
 
-
-# Requirements
-
-- cmake
+# Requirements (Using Fedora's package names)
+- gcc
 - git
-- vulkan-headers
-- libepoxy
-- libdrm
-- libgbm
-- libdl
+- glibc-common
+- glibc-utils
+- kernel
+- bison
+- flex
+- gcc-c++
 - meson
-- autotools
-- a graphic stack which supports vulkan
+- python
+- python2
+- expat-devel
+- libXvMC-devel
+- libdrm-devel
+- libva-devel
+- libvdpau-devel
+- llvm-devel
+- python2-mako
+- vulkan-devel
+- zlib-devel
+- elfutils-libelf-devel
+- libXdamage-devel
+- libxshmfence-devel
+- wayland-protocols-devel
+- autoconf
+- automake
+- file
+- libtool
+- make
+- check-devel
+- libepoxy-devel
+- mesa-libgbm-devel
+- cmake
+- glslang-devel
+
+# There is also a dockerfile available to build it using a valid Fedora setup
+
+docker-fedora/dockerfile
 
 # How to use
 
@@ -38,16 +64,17 @@ A sample vulkan compute application.
 ./run-demo.sh
 ```
 
-You can also use override repo urls
+There is also some options available
 
 ```bash
-./run-demo.sh                   \
-    --mesa=$(MESA_REPO_URL)     \
-    --virgl=$(VIRGL_REPO_URL)   \
-    --app=$(APP_REPO_URL)
+$ ./run-demo.sh -help
+vulkan-virgl-helper:
+  --url-mesa=   : override the URL for the mesa project
+  --url-virgl=  : override the URL for the virglrenderer project
+  --url-app=    : override the URL for the vulkan-compute project
+  -c        : disable repo cloning step
+  -p        : disable repo pull step
+  -b        : disable building step, implies -r
+  -r        : disable running step
+  -f        : remove the build folder first (force)
 ```
-
-There is also a **-f** and **-u** option.
-**-f**: delete the build/ directory, forcing clean-up.
-**-u**: only synchronizes the repos
-**-ns**: disable the git sync step
