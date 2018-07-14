@@ -14,18 +14,18 @@ STATUS  NEEDED           NAME
 [    ]   [X]    vkAllocateCommandBuffers
 [ OK ]   [X]    vkAllocateDescriptorSets
 [ OK ]   [x]    vkAllocateMemory
-[    ]   [x]    vkBeginCommandBuffer
+[ OK ]   [x]    vkBeginCommandBuffer
 [ OK ]   [x]    vkBindBufferMemory
-[    ]   [x]    vkCmdBindDescriptorSets
-[    ]   [x]    vkCmdBindPipeline
-[    ]   [x]    vkCmdDispatch
+[ OK ]   [x]    vkCmdBindDescriptorSets
+[ OK ]   [x]    vkCmdBindPipeline
+[ OK ]   [x]    vkCmdDispatch
 [ OK ]   [x]    vkCreateBuffer
-[ .. ]   [x]    vkCreateCommandPool
+[ OK ]   [x]    vkCreateCommandPool
 [ OK ]   [x]    vkCreateComputePipelines
 [ OK ]   [x]    vkCreateDescriptorPool
 [ OK ]   [x]    vkCreateDescriptorSetLayout
 [ OK ]   [x]    vkCreateDevice
-[    ]   [x]    vkCreateFence
+[ OK ]   [x]    vkCreateFence
 [ OK ]   [x]    vkCreateInstance
 [    ]   [ ]    vkCreatePipelineCache
 [ OK ]   [x]    vkCreatePipelineLayout
@@ -36,11 +36,11 @@ STATUS  NEEDED           NAME
 [    ]   [ ]    vkDestroyDescriptorSetLayout
 [    ]   [ ]    vkDestroyDevice
 [    ]   [ ]    vkDestroyFence
-[ OK ]   [ ]    vkDestroyInstance
+[ .. ]   [ ]    vkDestroyInstance
 [    ]   [ ]    vkDestroyPipeline
 [    ]   [ ]    vkDestroyPipelineLayout
 [    ]   [ ]    vkDestroyShaderModule
-[    ]   [x]    vkEndCommandBuffer
+[ OK ]   [x]    vkEndCommandBuffer
 [ OK ]   [x]    vkEnumerateDeviceExtensionProperties
 [ OK ]   [x]    vkEnumerateInstanceLayerProperties
 [ OK ]   [x]    vkEnumerateInstanceVersion
@@ -55,7 +55,7 @@ STATUS  NEEDED           NAME
 [ OK ]   [x]    vkGetPhysicalDeviceQueueFamilyProperties
 [ OK ]   [x]    vkInvalidateMappedMemoryRanges
 [ OK ]   [x]    vkMapMemory
-[    ]   [x]    vkQueueSubmit
+[ .. ]   [x]    vkQueueSubmit
 [ OK ]   [ ]    vkUnmapMemory
-[    ]   [x]    vkUpdateDescriptorSets
-[    ]   [x]    vkWaitForFences
+[ OK ]   [x]    vkUpdateDescriptorSets
+[ OK ]   [x]    vkWaitForFences
