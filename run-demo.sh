@@ -162,6 +162,7 @@ function run_app()
 {
     echo -e "${COLOR_BEGIN}[INFO] running the application now.${COLOR_END}"
 
+    export VTEST_USE_VULKAN=1
     $VIRGL_SERVER_BIN --no-fork &
     SERVER_PID=$!
 
