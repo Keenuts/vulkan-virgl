@@ -88,7 +88,7 @@ function build_mesa()
             -Dgallium-drivers=virgl         \
             -Dbuildtype=debug               \
             -Dglx=disabled                  \
-            -Dprefix=$(realpath mesa/build) > /dev/null
+            -Dprefix=$(realpath mesa/build)
     fi
 
     echo -e "${COLOR_BEGIN}[INFO] building MESA${COLOR_END}"
@@ -114,12 +114,12 @@ function build_virglrenderer()
         ./autogen.sh                    \
             --with-vulkan               \
             --enable-debug              \
-            --prefix=$(realpath build) > /dev/null
+            --prefix=$(realpath build)
     fi
 
     echo -e "${COLOR_BEGIN}[INFO] building virglrenderer${COLOR_END}"
-    make -j $(( $(nproc) * 2 )) > /dev/null
-    make install > /dev/null
+    make -j $(( $(nproc) * 2 ))
+    make install
 
     echo -e "${COLOR_BEGIN}[INFO] locating vtest server binary${COLOR_END}"
     export VIRGL_SERVER_BIN="$(realpath build/bin/virgl_test_server)"
@@ -138,7 +138,7 @@ function build_vulkan_compute()
     if [ ! -d build ]; then
         echo -e "${COLOR_BEGIN}[INFO] configuring vulkan application${COLOR_END}"
         mkdir build
-        cmake -H. -Bbuild/ > /dev/null
+        cmake -H. -Bbuild/
     fi
 
     echo -e "${COLOR_BEGIN}[INFO] building vulkan application${COLOR_END}"
