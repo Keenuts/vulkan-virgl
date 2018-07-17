@@ -245,7 +245,6 @@ if $update_remote; then
     set_remote "mesa"           "$mesa_url"
     set_remote "virglrenderer"  "$virglrenderer_url"
     set_remote "vulkan-compute" "$vulkan_compute_url"
-    remote_update
 fi
 
 if $step_pull; then
