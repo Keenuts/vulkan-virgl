@@ -1,0 +1,15 @@
+# Usage
+
+I use this docker to test this project on Fedora 28.
+I do not know a lot about docker, but here is how I use it:
+
+==========================================================
+NOTE: this has been tested on an machine with an Intel GPU
+==========================================================
+
+docker build -t $IMAGE_NAME .
+docker run \
+    --volume=/tmp/.X11-unix:/tmp/.X11-unix      \
+    --device=/dev/dri:/dev/dri                  \
+    --env="DISPLAY"                             \
+    -ti $IMAGE_NAME ./run-demo.sh

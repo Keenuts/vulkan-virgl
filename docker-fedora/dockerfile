@@ -55,6 +55,10 @@ RUN dnf -y install \
     cmake          \
     glslang-devel
 
+# Needed to use /dev/dri
+RUN dnf -y install      \
+    mesa-dri-drivers
+
 ENV USER build
 RUN useradd --create-home $USER
 USER $USER

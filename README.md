@@ -60,6 +60,12 @@ docker-fedora/dockerfile
 
 # How to use
 
+If you have an Intel GPU, and any issue on your current distro, I recommand using
+a docker container. One is ready in the fedora-docker folder.
+I tested it on my machine, with a simple HD-Graphics.
+Maybe it will work on your machine.
+Otherwise, you can:
+
 ```bash
 ./run-demo.sh
 ```
