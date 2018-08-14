@@ -54,6 +54,8 @@ A sample vulkan compute application.
 - cmake
 - glslang-devel
 
+If you want to build it in debug, you will need LunarG Vulkan SDK.
+
 # There is also a dockerfile available to build it using a valid Fedora setup
 
 docker-fedora/dockerfile
